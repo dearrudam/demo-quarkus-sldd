@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "skills": {
+    "sldd-00-process-overview-and-navigation-guide": {
+      "source": "soujava/sldd-skills",
+      "sourceType": "github",
+      "skillPath": "skills/sldd-00-process-overview-and-navigation-guide/SKILL.md",
+      "computedHash": "24264f2bd0e8982e2fd397c1a317eea5215245baa18fce4a040e487bd96ef2b9"
+    },
+    "sldd-01-product-intent-specification": {
+      "source": "soujava/sldd-skills",
+      "sourceType": "github",
+      "skillPath": "skills/sldd-01-product-intent-specification/SKILL.md",
+      "computedHash": "33d50a25597c351aa2450ea1afe67182fa201008389e33ded7e4ce7366ce3c5f"
+    },
+    "sldd-02-high-level-technical-design": {
+      "source": "soujava/sldd-skills",
+      "sourceType": "github",
+      "skillPath": "skills/sldd-02-high-level-technical-design/SKILL.md",
+      "computedHash": "5df77caf736e9e365292ab463539f96496636bf49cf38e2e956f189846ad3e7f"
+    },
+    "sldd-03-low-level-design-and-version-policy": {
+      "source": "soujava/sldd-skills",
+      "sourceType": "github",
+      "skillPath": "skills/sldd-03-low-level-design-and-version-policy/SKILL.md",
+      "computedHash": "f47e46a35ff9c4916e2769ba5b29d3b2dd79fe3465154d4dc4499b2254012ecb"
+    },
+    "sldd-04-tests-first-driven-by-acceptance-criteria": {
+      "source": "soujava/sldd-skills",
+      "sourceType": "github",
+      "skillPath": "skills/sldd-04-tests-first-driven-by-acceptance-criteria/SKILL.md",
+      "computedHash": "4a7579062b395fe2978afd4b001af13113cbf85608863f7bbca7717bd58897a4"
+    },
+    "sldd-05-minimal-implementation-to-pass-existing-tests": {
+      "source": "soujava/sldd-skills",
+      "sourceType": "github",
+      "skillPath": "skills/sldd-05-minimal-implementation-to-pass-existing-tests/SKILL.md",
+      "computedHash": "d6f10976b5d63c2476ec1576422ce370ef6899b8fbbfa40705c536153167ecb9"
+    },
+    "sldd-06-verification-and-feedback-report": {
+      "source": "soujava/sldd-skills",
+      "sourceType": "github",
+      "skillPath": "skills/sldd-06-verification-and-feedback-report/SKILL.md",
+      "computedHash": "6ad762500051447a61750aac4040a7583b54609ca19f360251ca3b845fff5e55"
+    },
+    "sldd-88-spec-exploration-and-clarification": {
+      "source": "soujava/sldd-skills",
+      "sourceType": "github",
+      "skillPath": "skills/sldd-88-spec-exploration-and-clarification/SKILL.md",
+      "computedHash": "f4b3d4f1a56884a1b5d42fc203c80a371c78de89e30891c98bf96eaa04b59c74"
+    },
+    "sldd-99-existing-codebase-understanding-and-context-summary": {
+      "source": "soujava/sldd-skills",
+      "sourceType": "github",
+      "skillPath": "skills/sldd-99-existing-codebase-understanding-and-context-summary/SKILL.md",
+      "computedHash": "36af11b9479b1bda4e0ea24354d2cecfa6935032275e4d2e8c082086eb443c30"
+    }
+  }
+}
