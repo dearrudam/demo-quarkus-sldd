@@ -19,6 +19,6 @@ public class CalcResource {
     @POST
     @Path("/sum")
     public SumResponse sum(@Valid SumRequest request) {
-        return new SumResponse(calcService.sum(request.firstOperand, request.secondOperand));
+        return new SumResponse(calcService.sum(request.firstOperand(), request.secondOperand()));
     }
 }
