@@ -4,11 +4,8 @@ import java.math.BigDecimal;
 
 import jakarta.validation.constraints.NotNull;
 
-public class SumRequest {
-
-    @NotNull
-    public BigDecimal firstOperand;
-
-    @NotNull
-    public BigDecimal secondOperand;
+public record SumRequest(
+    @NotNull BigDecimal firstOperand,
+    @NotNull BigDecimal secondOperand
+) {
 }
