@@ -6,4 +6,4 @@
 - [x] Step 03 — Low-Level Design and Version Policy ([`03-low-level-design-and-version-policy.md`](./03-low-level-design-and-version-policy.md))
 - [x] Step 04 — Tests First Driven by Acceptance Criteria
 - [x] Step 05 — Minimal Implementation to Pass Existing Tests
-- [ ] Step 06 — Verification and Feedback Report
+- [x] Step 06 — Verification and Feedback Report ([`06-verification-and-feedback-report.md`](./06-verification-and-feedback-report.md))
