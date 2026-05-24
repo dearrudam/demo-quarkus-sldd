@@ -2,16 +2,15 @@
 
 ## Requirements Traceability
 
-| Requisito da Step 01                                 | Decisão de design                                                                       |
-| ---------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| Expor operação de multiplicação na API de calculadora | Adicionar novo endpoint `POST /api/calc/multiply` em `CalcResource`                         |
-| Seguir padrão dos endpoints existentes               | Reutilizar base path `/api/calc`, JSON, `BigDecimal`, DTOs como records e validação Jakarta |
-| Entrada com `firstOperand` e `secondOperand`             | Criar request record com os mesmos nomes de campos                                      |
-| Operação `firstOperand * secondOperand`                | Adicionar método de serviço que chama `firstOperand.multiply(secondOperand)`             |
-| Resposta com campo `product`                           | Criar response record com campo `product`                                                |
-| Payload inválido retorna `400 Bad Request`             | Usar `@Valid` no recurso e `@NotNull` nos campos do request                                 |
-| Endpoint aparece no OpenAPI                          | Usar recurso JAX-RS/Quarkus REST normal para integração automática com SmallRye OpenAPI |
-| Soma e subtração permanecem inalteradas              | Fazer extensão aditiva, sem alterar contratos existentes                                |
+| Requisito da Step 01 | Decisão de design |
+| --- | --- |
+| Expor operação de multiplicação na API de calculadora | Adicionar novo endpoint `POST /api/calc/multiply` em `CalcResource` |
+| Seguir padrão atual de contrato, validação e comportamento | Reutilizar base path `/api/calc`, JSON, `BigDecimal`, records e Bean Validation |
+| Entrada com `multiplier` e `multiplicand` | Criar request record com os nomes aprovados na Step 01 |
+| Operação `multiplier * multiplicand` | Adicionar método de serviço que chama `multiplier.multiply(multiplicand)` |
+| Resposta com campo `product` | Criar response record com campo `product` |
+| Payload inválido retorna `400 Bad Request` | Usar `@Valid` no recurso e `@NotNull` nos campos do request, além do comportamento padrão de desserialização |
+| Endpoint aparece no OpenAPI | Usar recurso JAX-RS/Quarkus REST normal para integração automática com SmallRye OpenAPI |
 
 ## Architecture Diagram
 
@@ -27,11 +26,11 @@ CalcResource
   v
 Bean Validation
   |
-  | valid firstOperand + secondOperand
+  | valid multiplier + multiplicand
   v
 CalcService
   |
-  | multiply(firstOperand, secondOperand)
+  | multiply(multiplier, multiplicand)
   v
 BigDecimal multiplication
   |
@@ -68,9 +67,9 @@ Responsável por:
 
 Não deve:
 
-- conter regra matemática complexa além da orquestração;
+- conter regra matemática além da orquestração;
 - criar envelope customizado de erro;
-- alterar os endpoints de soma ou subtração.
+- alterar a estrutura geral da API de calculadora.
 
 ### `CalcService`
 
@@ -78,24 +77,24 @@ Responsável por:
 
 - concentrar a operação matemática;
 - adicionar operação de multiplicação;
-- preservar as operações existentes.
+- usar `BigDecimal.multiply` sem escala fixa ou arredondamento customizado.
 
 Operação planejada:
 
 ```text
-multiply(firstOperand, secondOperand) = firstOperand * secondOperand
+multiply(multiplier, multiplicand) = multiplier * multiplicand
 ```
 
 ### `MultiplyRequest`
 
-Responsável por representar o payload de entrada.
+Responsável por representar o payload de entrada aprovado na Step 01.
 
 Campos:
 
-- `firstOperand`
-- `secondOperand`
+- `multiplier`.
+- `multiplicand`.
 
-Ambos obrigatórios e numéricos, seguindo o padrão atual com `BigDecimal` e `@NotNull`.
+Ambos obrigatórios e numéricos, usando `BigDecimal` e `@NotNull`.
 
 ### `MultiplyResponse`
 
@@ -103,18 +102,18 @@ Responsável por representar o payload de saída.
 
 Campo:
 
-- `product`
+- `product`.
 
 ### Testes
 
-Responsáveis por validar:
+Responsáveis por validar os acceptance criteria da Step 01:
 
 - sucesso da multiplicação;
-- payload com campo ausente;
-- payload com campo nulo;
-- payload com tipo inválido;
-- presença do endpoint no OpenAPI;
-- ausência de regressão nos endpoints de soma e subtração.
+- `multiplier` ausente;
+- `multiplicand` ausente;
+- operando nulo;
+- tipo inválido;
+- presença do endpoint no OpenAPI.
 
 ## Data Flow
 
@@ -122,11 +121,11 @@ Responsáveis por validar:
 
 ```text
 1. Cliente envia POST /api/calc/multiply.
-2. Corpo JSON contém firstOperand e secondOperand.
+2. Corpo JSON contém multiplier e multiplicand.
 3. Quarkus desserializa JSON em MultiplyRequest.
 4. Bean Validation valida campos obrigatórios.
-5. CalcResource chama CalcService.multiply(firstOperand, secondOperand).
-6. CalcService calcula firstOperand.multiply(secondOperand).
+5. CalcResource chama CalcService.multiply(multiplier, multiplicand).
+6. CalcService calcula multiplier.multiply(multiplicand).
 7. CalcResource encapsula resultado em MultiplyResponse.
 8. API retorna 200 OK com JSON contendo product.
 ```
@@ -135,8 +134,8 @@ Exemplo:
 
 ```json
 {
-  "firstOperand": 10.25,
-  "secondOperand": 5.75
+  "multiplier": 10.25,
+  "multiplicand": 5.75
 }
 ```
 
@@ -183,10 +182,10 @@ POST /api/calc/multiply
 
 Vantagens:
 
-- segue o padrão existente de `/api/calc/sum` e `/api/calc/subtract`;
+- segue o padrão existente de operação dedicada por cálculo;
 - contrato simples;
 - fácil de testar;
-- baixa chance de regressão.
+- baixo acoplamento com outras operações.
 
 ### Alternativa rejeitada — endpoint genérico de operação
 
@@ -196,8 +195,8 @@ Exemplo:
 POST /api/calc
 {
   "operation": "multiply",
-  "firstOperand": 10,
-  "secondOperand": 3
+  "multiplier": 10,
+  "multiplicand": 3
 }
 ```
 
@@ -219,32 +218,29 @@ Exemplo:
 
 Motivo para rejeição:
 
-- a soma existente usa campo semântico `sum`;
-- a subtração existente usa campo semântico `difference`;
-- `product` mantém resposta semântica por operação.
+- a Step 01 aprova explicitamente o campo `product`.
 
 ### Alternativa rejeitada — usar `double`
 
 Motivo para rejeição:
 
 - o projeto já usa `BigDecimal` nas operações existentes;
-- `BigDecimal` preserva consistência e evita mudança de precisão.
+- `BigDecimal` preserva consistência com o padrão atual de números decimais.
 
 ### Alternativa rejeitada — definir escala fixa
 
 Motivo para rejeição:
 
-- os endpoints existentes não aplicam escala fixa;
-- introduzir arredondamento nesta feature criaria comportamento inconsistente sem requisito de produto.
+- a Step 01 coloca escala fixa e formatação específica fora de escopo;
+- introduzir arredondamento criaria comportamento não solicitado.
 
 ## High-Level Test Scenario Map
 
-| Cenário                                  | Tipo                      | Resultado esperado                |
-| ---------------------------------------- | ------------------------- | --------------------------------- |
-| Multiplicação válida com decimais        | Sucesso                   | `200 OK` com `product` correto      |
-| `firstOperand` ausente                     | Validação                 | `400 Bad Request`                   |
-| `secondOperand` ausente                    | Validação                 | `400 Bad Request`                   |
-| Operando nulo                            | Validação                 | `400 Bad Request`                   |
-| Operando com tipo inválido               | Desserialização/validação | `400 Bad Request`                   |
-| OpenAPI lista `/api/calc/multiply`        | Contrato                  | documentação contém novo endpoint |
-| Regressão de soma e subtração existentes | Regressão                 | endpoints existentes seguem OK    |
+| Cenário | Tipo | Resultado esperado |
+| --- | --- | --- |
+| Multiplicação válida com decimais | Sucesso | `200 OK` com `product` correto |
+| `multiplier` ausente | Validação | `400 Bad Request` |
+| `multiplicand` ausente | Validação | `400 Bad Request` |
+| Operando nulo | Validação | `400 Bad Request` |
+| Operando com tipo inválido | Desserialização/validação | `400 Bad Request` |
+| OpenAPI lista `/api/calc/multiply` | Contrato | documentação contém novo endpoint |
