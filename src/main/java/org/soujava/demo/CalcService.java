@@ -18,4 +18,8 @@ public class CalcService {
     public BigDecimal multiply(BigDecimal multiplier, BigDecimal multiplicand) {
         return multiplier.multiply(multiplicand);
     }
+
+    public BigDecimal divide(BigDecimal dividend, BigDecimal divisor) {
+        return dividend.divide(divisor);
+    }
 }

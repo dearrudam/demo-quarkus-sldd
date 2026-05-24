@@ -1,7 +1,10 @@
 package org.soujava.demo;
 
+import java.math.BigDecimal;
+
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
+import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -32,5 +35,14 @@ public class CalcResource {
     @Path("/multiply")
     public MultiplyResponse multiply(@Valid MultiplyRequest request) {
         return new MultiplyResponse(calcService.multiply(request.multiplier(), request.multiplicand()));
+    }
+
+    @POST
+    @Path("/divide")
+    public DivideResponse divide(@Valid DivideRequest request) {
+        if (BigDecimal.ZERO.compareTo(request.divisor()) == 0) {
+            throw new BadRequestException();
+        }
+        return new DivideResponse(calcService.divide(request.dividend(), request.divisor()));
     }
 }

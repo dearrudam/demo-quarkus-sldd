@@ -63,6 +63,23 @@ class CalcResourceTest {
     }
 
     @Test
+    void shouldReturnQuotientForValidDividePayload() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "dividend": 10.25,
+                  "divisor": 2.5
+                }
+                """)
+            .when()
+            .post("/api/calc/divide")
+            .then()
+            .statusCode(200)
+            .body("quotient", is(4.1f));
+    }
+
+    @Test
     void shouldReturnBadRequestWhenFirstOperandIsMissing() {
         given()
             .contentType("application/json")
@@ -108,6 +125,21 @@ class CalcResourceTest {
     }
 
     @Test
+    void shouldReturnBadRequestWhenDividendIsMissing() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "divisor": 2.5
+                }
+                """)
+            .when()
+            .post("/api/calc/divide")
+            .then()
+            .statusCode(400);
+    }
+
+    @Test
     void shouldReturnBadRequestWhenSubtractSecondOperandIsMissing() {
         given()
             .contentType("application/json")
@@ -133,6 +165,21 @@ class CalcResourceTest {
                 """)
             .when()
             .post("/api/calc/multiply")
+            .then()
+            .statusCode(400);
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenDivisorIsMissing() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "dividend": 10.25
+                }
+                """)
+            .when()
+            .post("/api/calc/divide")
             .then()
             .statusCode(400);
     }
@@ -165,6 +212,22 @@ class CalcResourceTest {
                 """)
             .when()
             .post("/api/calc/multiply")
+            .then()
+            .statusCode(400);
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenDividendIsNull() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "dividend": null,
+                  "divisor": 2.5
+                }
+                """)
+            .when()
+            .post("/api/calc/divide")
             .then()
             .statusCode(400);
     }
@@ -218,6 +281,22 @@ class CalcResourceTest {
     }
 
     @Test
+    void shouldReturnBadRequestWhenDivisorIsNull() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "dividend": 10.25,
+                  "divisor": null
+                }
+                """)
+            .when()
+            .post("/api/calc/divide")
+            .then()
+            .statusCode(400);
+    }
+
+    @Test
     void shouldReturnBadRequestWhenPayloadTypeIsInvalid() {
         given()
             .contentType("application/json")
@@ -266,6 +345,38 @@ class CalcResourceTest {
     }
 
     @Test
+    void shouldReturnBadRequestWhenDividePayloadTypeIsInvalid() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "dividend": "abc",
+                  "divisor": 2.5
+                }
+                """)
+            .when()
+            .post("/api/calc/divide")
+            .then()
+            .statusCode(400);
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenDivisorIsZero() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "dividend": 10.25,
+                  "divisor": 0
+                }
+                """)
+            .when()
+            .post("/api/calc/divide")
+            .then()
+            .statusCode(400);
+    }
+
+    @Test
     void shouldExposeOpenApiContractForCalcSum() {
         given()
             .when()
@@ -296,5 +407,16 @@ class CalcResourceTest {
             .statusCode(200)
             .body(notNullValue())
             .body(containsString("/api/calc/multiply"));
+    }
+
+    @Test
+    void shouldExposeOpenApiContractForCalcDivide() {
+        given()
+            .when()
+            .get("/q/openapi")
+            .then()
+            .statusCode(200)
+            .body(notNullValue())
+            .body(containsString("/api/calc/divide"));
     }
 }

@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "feature": "calc-divide",
+  "workflow": "sldd",
+  "current_step": "06",
+  "steps": {
+    "01": {
+      "status": "complete",
+      "artifact": "01-product-intent-specification.md",
+      "updated_at": "2026-05-24T22:16:06Z"
+    },
+    "99": {
+      "status": "complete",
+      "artifact": "99-existing-codebase-understanding.md",
+      "updated_at": "2026-05-24T22:20:25Z"
+    },
+    "02": {
+      "status": "complete",
+      "artifact": "02-high-level-technical-design.md",
+      "updated_at": "2026-05-24T22:21:15Z"
+    },
+    "03": {
+      "status": "complete",
+      "artifact": "03-low-level-design-and-version-policy.md",
+      "updated_at": "2026-05-24T22:22:15Z"
+    },
+    "04": {
+      "status": "complete",
+      "evidence": "red_confirmed",
+      "updated_at": "2026-05-24T22:28:06Z"
+    },
+    "05": {
+      "status": "complete",
+      "evidence": "green_confirmed",
+      "updated_at": "2026-05-24T22:30:11Z"
+    },
+    "06": {
+      "status": "complete",
+      "artifact": "06-verification-and-feedback-report.md",
+      "updated_at": "2026-05-24T23:01:28Z"
+    }
+  },
+  "notes": [
+    "Step 01 follows the legacy calc-multiply spec pattern. Step 99 is required before Step 02 because this is an existing codebase."
+  ]
+}
