@@ -10,9 +10,29 @@ name: Java CI with Maven
 
 on:
   pull_request:
+    paths:
+      - 'src/**'
+      - 'pom.xml'
+      - 'mvnw'
+      - 'mvnw.cmd'
+      - '.github/workflows/maven.yml'
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '*.json'
   push:
     branches: [ main ]
-   
+    paths:
+      - 'src/**'
+      - 'pom.xml'
+      - 'mvnw'
+      - 'mvnw.cmd'
+      - '.github/workflows/maven.yml'
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '*.json'
+
 jobs:
   build:
     strategy:
