@@ -1,3 +1,5 @@
+[![Java CI with Maven](https://github.com/dearrudam/demo-quarkus-sldd/actions/workflows/maven.yml/badge.svg)](https://github.com/dearrudam/demo-quarkus-sldd/actions/workflows/maven.yml)
+
 # demo-quarkus-sldd
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
