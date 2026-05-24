@@ -14,4 +14,8 @@ public class CalcService {
     public BigDecimal subtract(BigDecimal firstOperand, BigDecimal secondOperand) {
         return firstOperand.subtract(secondOperand);
     }
+
+    public BigDecimal multiply(BigDecimal multiplier, BigDecimal multiplicand) {
+        return multiplier.multiply(multiplicand);
+    }
 }

@@ -27,4 +27,10 @@ public class CalcResource {
     public SubtractResponse subtract(@Valid SubtractRequest request) {
         return new SubtractResponse(calcService.subtract(request.firstOperand(), request.secondOperand()));
     }
+
+    @POST
+    @Path("/multiply")
+    public MultiplyResponse multiply(@Valid MultiplyRequest request) {
+        return new MultiplyResponse(calcService.multiply(request.multiplier(), request.multiplicand()));
+    }
 }

@@ -46,6 +46,23 @@ class CalcResourceTest {
     }
 
     @Test
+    void shouldReturnProductForValidMultiplyPayload() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "multiplier": 10.25,
+                  "multiplicand": 5.75
+                }
+                """)
+            .when()
+            .post("/api/calc/multiply")
+            .then()
+            .statusCode(200)
+            .body("product", is(58.9375f));
+    }
+
+    @Test
     void shouldReturnBadRequestWhenFirstOperandIsMissing() {
         given()
             .contentType("application/json")
@@ -76,6 +93,21 @@ class CalcResourceTest {
     }
 
     @Test
+    void shouldReturnBadRequestWhenMultiplierIsMissing() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "multiplicand": 5.75
+                }
+                """)
+            .when()
+            .post("/api/calc/multiply")
+            .then()
+            .statusCode(400);
+    }
+
+    @Test
     void shouldReturnBadRequestWhenSubtractSecondOperandIsMissing() {
         given()
             .contentType("application/json")
@@ -86,6 +118,21 @@ class CalcResourceTest {
                 """)
             .when()
             .post("/api/calc/subtract")
+            .then()
+            .statusCode(400);
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenMultiplicandIsMissing() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "multiplier": 10.25
+                }
+                """)
+            .when()
+            .post("/api/calc/multiply")
             .then()
             .statusCode(400);
     }
@@ -102,6 +149,22 @@ class CalcResourceTest {
                 """)
             .when()
             .post("/api/calc/subtract")
+            .then()
+            .statusCode(400);
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenMultiplierIsNull() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "multiplier": null,
+                  "multiplicand": 5.75
+                }
+                """)
+            .when()
+            .post("/api/calc/multiply")
             .then()
             .statusCode(400);
     }
@@ -139,6 +202,22 @@ class CalcResourceTest {
     }
 
     @Test
+    void shouldReturnBadRequestWhenMultiplicandIsNull() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "multiplier": 10.25,
+                  "multiplicand": null
+                }
+                """)
+            .when()
+            .post("/api/calc/multiply")
+            .then()
+            .statusCode(400);
+    }
+
+    @Test
     void shouldReturnBadRequestWhenPayloadTypeIsInvalid() {
         given()
             .contentType("application/json")
@@ -171,6 +250,22 @@ class CalcResourceTest {
     }
 
     @Test
+    void shouldReturnBadRequestWhenMultiplyPayloadTypeIsInvalid() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "multiplier": "abc",
+                  "multiplicand": 1.25
+                }
+                """)
+            .when()
+            .post("/api/calc/multiply")
+            .then()
+            .statusCode(400);
+    }
+
+    @Test
     void shouldExposeOpenApiContractForCalcSum() {
         given()
             .when()
@@ -190,5 +285,16 @@ class CalcResourceTest {
             .statusCode(200)
             .body(notNullValue())
             .body(containsString("/api/calc/subtract"));
+    }
+
+    @Test
+    void shouldExposeOpenApiContractForCalcMultiply() {
+        given()
+            .when()
+            .get("/q/openapi")
+            .then()
+            .statusCode(200)
+            .body(notNullValue())
+            .body(containsString("/api/calc/multiply"));
     }
 }
