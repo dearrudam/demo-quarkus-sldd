@@ -16,10 +16,6 @@ on:
       - 'mvnw'
       - 'mvnw.cmd'
       - '.github/workflows/maven.yml'
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
-      - '*.json'
   push:
     branches: [ main ]
     paths:
@@ -28,10 +24,6 @@ on:
       - 'mvnw'
       - 'mvnw.cmd'
       - '.github/workflows/maven.yml'
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
-      - '*.json'
 
 jobs:
   build:
@@ -50,5 +42,5 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B verify --file pom.xml
+      run: ./mvnw -B verify
       
