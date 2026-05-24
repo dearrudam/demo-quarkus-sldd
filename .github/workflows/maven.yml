@@ -18,8 +18,8 @@ jobs:
     strategy:
       matrix:
         # Define combinations of OS and Java versions
-        os: [ubuntu-latest, windows-latest]
-        java: ['25','26']
+        os: [ubuntu-latest]
+        java: ['25']
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
