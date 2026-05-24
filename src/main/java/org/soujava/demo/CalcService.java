@@ -10,4 +10,8 @@ public class CalcService {
     public BigDecimal sum(BigDecimal firstOperand, BigDecimal secondOperand) {
         return firstOperand.add(secondOperand);
     }
+
+    public BigDecimal subtract(BigDecimal firstOperand, BigDecimal secondOperand) {
+        return firstOperand.subtract(secondOperand);
+    }
 }

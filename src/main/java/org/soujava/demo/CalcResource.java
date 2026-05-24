@@ -21,4 +21,10 @@ public class CalcResource {
     public SumResponse sum(@Valid SumRequest request) {
         return new SumResponse(calcService.sum(request.firstOperand(), request.secondOperand()));
     }
+
+    @POST
+    @Path("/subtract")
+    public SubtractResponse subtract(@Valid SubtractRequest request) {
+        return new SubtractResponse(calcService.subtract(request.firstOperand(), request.secondOperand()));
+    }
 }
