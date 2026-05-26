@@ -49,14 +49,14 @@ public class CalcResource {
         }
         var roundingContext = request.roundingContext();
         var scale = roundingContext == null || roundingContext.scale() == null
-            ? DEFAULT_DIVIDE_SCALE
-            : roundingContext.scale();
+                ? DEFAULT_DIVIDE_SCALE
+                : roundingContext.scale();
         if (scale < 0) {
             throw new BadRequestException();
         }
         var roundingMode = roundingContext == null || roundingContext.roundingMode() == null
-            ? DEFAULT_DIVIDE_ROUNDING_MODE
-            : roundingContext.roundingMode();
+                ? DEFAULT_DIVIDE_ROUNDING_MODE
+                : roundingContext.roundingMode();
         try {
             return new DivideResponse(calcService.divide(request.dividend(), request.divisor(), scale, roundingMode));
         } catch (ArithmeticException e) {
