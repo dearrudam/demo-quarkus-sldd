@@ -557,4 +557,94 @@ class CalcResourceTest {
             .body(notNullValue())
             .body(containsString("/api/calc/divide"));
     }
+
+    @Test
+    void shouldReturnPowerForValidPayload() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "base": 2.0,
+                  "exponent": 3.0
+                }
+                """)
+            .when()
+            .post("/api/calc/power")
+            .then()
+            .statusCode(200)
+            .body("power", is(8.0f));
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenPowerBaseIsMissing() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "exponent": 3.0
+                }
+                """)
+            .when()
+            .post("/api/calc/power")
+            .then()
+            .statusCode(400);
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenPowerExponentIsMissing() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "base": 2.0
+                }
+                """)
+            .when()
+            .post("/api/calc/power")
+            .then()
+            .statusCode(400);
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenPowerBaseIsNull() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "base": null,
+                  "exponent": 3.0
+                }
+                """)
+            .when()
+            .post("/api/calc/power")
+            .then()
+            .statusCode(400);
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenPowerExponentIsNull() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "base": 2.0,
+                  "exponent": null
+                }
+                """)
+            .when()
+            .post("/api/calc/power")
+            .then()
+            .statusCode(400);
+    }
+
+    @Test
+    void shouldExposeOpenApiContractForCalcPower() {
+        given()
+            .when()
+            .get("/q/openapi")
+            .then()
+            .statusCode(200)
+            .body(notNullValue())
+            .body(containsString("/api/calc/power"));
+    }
 }

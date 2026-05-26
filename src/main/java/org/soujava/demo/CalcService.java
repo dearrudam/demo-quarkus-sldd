@@ -23,4 +23,8 @@ public class CalcService {
     public BigDecimal divide(BigDecimal dividend, BigDecimal divisor, int scale, RoundingMode roundingMode) {
         return dividend.divide(divisor, scale, roundingMode);
     }
+
+    public BigDecimal power(BigDecimal base, BigDecimal exponent) {
+        return base.pow(exponent.intValue());
+    }
 }

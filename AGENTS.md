@@ -1,7 +1,16 @@
 # AGENTS.md
 
 ## Purpose
-This is a small Java/Quarkus REST service using Quarkus 3.35.3 and Java release 25.
+This repository is primarily a study project for testing and refining the SLDD workflow skill.
+
+The application is a small Java/Quarkus REST service using Quarkus 3.35.3 and Java release 25. Keep the codebase intentionally simple unless a workflow exercise explicitly requires more complexity.
+
+## SLDD workflow focus
+- Treat SLDD workflow validation as the main goal of this repository.
+- Prefer changes that make intent, design, tests, implementation, and verification easy to inspect.
+- Use the `sldd` skill when the user asks to start, resume, inspect, or continue SLDD spec-driven work.
+- Preserve generated or curated workflow artifacts unless the user explicitly asks to replace or remove them.
+- When a change task touches application behavior, update or add tests as needed and run the relevant Maven test command.
 
 ## Agent rules
 - Use `./mvnw`, not system `mvn`;

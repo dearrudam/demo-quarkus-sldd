@@ -63,4 +63,10 @@ public class CalcResource {
             throw new BadRequestException(e);
         }
     }
+
+    @POST
+    @Path("/power")
+    public PowerResponse power(@Valid PowerRequest request) {
+        return new PowerResponse(calcService.power(request.base(), request.exponent()));
+    }
 }
