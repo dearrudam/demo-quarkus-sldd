@@ -80,6 +80,144 @@ class CalcResourceTest {
     }
 
     @Test
+    void shouldUseDefaultRoundingContextWhenDividePayloadOmitsIt() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "dividend": 1,
+                  "divisor": 3
+                }
+                """)
+            .when()
+            .post("/api/calc/divide")
+            .then()
+            .statusCode(200)
+            .body("quotient", is(0.33f));
+    }
+
+    @Test
+    void shouldUseExplicitRoundingContextForDividePayload() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "dividend": 1,
+                  "divisor": 3,
+                  "roundingContext": {
+                    "scale": 3,
+                    "roundingMode": "HALF_UP"
+                  }
+                }
+                """)
+            .when()
+            .post("/api/calc/divide")
+            .then()
+            .statusCode(200)
+            .body("quotient", is(0.333f));
+    }
+
+    @Test
+    void shouldUseDefaultRoundingModeWhenDividePayloadOmitsIt() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "dividend": 1,
+                  "divisor": 3,
+                  "roundingContext": {
+                    "scale": 4
+                  }
+                }
+                """)
+            .when()
+            .post("/api/calc/divide")
+            .then()
+            .statusCode(200)
+            .body("quotient", is(0.3333f));
+    }
+
+    @Test
+    void shouldUseDefaultScaleWhenDividePayloadOmitsIt() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "dividend": 1,
+                  "divisor": 3,
+                  "roundingContext": {
+                    "roundingMode": "DOWN"
+                  }
+                }
+                """)
+            .when()
+            .post("/api/calc/divide")
+            .then()
+            .statusCode(200)
+            .body("quotient", is(0.33f));
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenDivideRoundingScaleIsNegative() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "dividend": 1,
+                  "divisor": 3,
+                  "roundingContext": {
+                    "scale": -1,
+                    "roundingMode": "HALF_UP"
+                  }
+                }
+                """)
+            .when()
+            .post("/api/calc/divide")
+            .then()
+            .statusCode(400);
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenDivideRoundingModeIsUnknown() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "dividend": 1,
+                  "divisor": 3,
+                  "roundingContext": {
+                    "scale": 2,
+                    "roundingMode": "UNKNOWN"
+                  }
+                }
+                """)
+            .when()
+            .post("/api/calc/divide")
+            .then()
+            .statusCode(400);
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenDivideRoundingIsUnnecessaryButRequired() {
+        given()
+            .contentType("application/json")
+            .body("""
+                {
+                  "dividend": 1,
+                  "divisor": 3,
+                  "roundingContext": {
+                    "scale": 2,
+                    "roundingMode": "UNNECESSARY"
+                  }
+                }
+                """)
+            .when()
+            .post("/api/calc/divide")
+            .then()
+            .statusCode(400);
+    }
+
+    @Test
     void shouldReturnBadRequestWhenFirstOperandIsMissing() {
         given()
             .contentType("application/json")

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record DivideRequest(
     @NotNull BigDecimal dividend,
-    @NotNull BigDecimal divisor
+    @NotNull BigDecimal divisor,
+    RoundingContext roundingContext
 ) {
 }
