@@ -1,6 +1,7 @@
 package org.soujava.demo;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -17,5 +18,13 @@ public class CalcService {
 
     public BigDecimal multiply(BigDecimal multiplier, BigDecimal multiplicand) {
         return multiplier.multiply(multiplicand);
+    }
+
+    public BigDecimal divide(BigDecimal dividend, BigDecimal divisor, int scale, RoundingMode roundingMode) {
+        return dividend.divide(divisor, scale, roundingMode);
+    }
+
+    public BigDecimal power(BigDecimal base, BigDecimal exponent) {
+        return base.pow(exponent.intValue());
     }
 }

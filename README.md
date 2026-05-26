@@ -2,9 +2,17 @@
 
 # demo-quarkus-sldd
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+This repository is a study project for testing and refining the SLDD workflow skill with a small Quarkus REST service.
+
+The application code is intentionally simple so the repository can focus on practicing spec-led development flows, agent handoffs, and change validation around the SLDD skill. Quarkus is used as the concrete Java service framework for those exercises.
 
 If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+
+## Project Goals
+
+- Exercise the SLDD workflow skill in a real but compact codebase.
+- Keep the service small enough that workflow artifacts and implementation changes are easy to review.
+- Validate that agents can follow repository instructions, run the expected Maven commands, and preserve the spec-driven workflow.
 
 ## Running the application in dev mode
 

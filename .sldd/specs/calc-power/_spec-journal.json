@@ -1,0 +1,38 @@
+{
+  "feature": "calc-power",
+  "created_at": "2026-05-26T00:00:00Z",
+  "steps": {
+    "00": {
+      "status": "complete",
+      "artifact": "00-exploration-summary.md"
+    },
+    "01": {
+      "status": "complete",
+      "artifact": "01-product-intent-specification.md"
+    },
+    "99": {
+      "status": "complete",
+      "artifact": "existing-codebase-understanding.md"
+    },
+    "02": {
+      "status": "complete",
+      "artifact": "02-high-level-technical-design.md"
+    },
+    "03": {
+      "status": "complete",
+      "artifact": "03-low-level-design-and-version-policy.md"
+    },
+    "04": {
+      "status": "complete",
+      "evidence": "red_confirmed"
+    },
+    "05": {
+      "status": "complete",
+      "evidence": "green_confirmed"
+    },
+    "06": {
+      "status": "complete",
+      "artifact": "06-verification-and-feedback-report.md"
+    }
+  }
+}

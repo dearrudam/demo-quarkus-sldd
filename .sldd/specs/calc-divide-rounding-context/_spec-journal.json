@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "feature": "calc-divide-rounding-context",
+  "workflow": "sldd",
+  "current_step": "06",
+  "steps": {
+    "01": {
+      "status": "complete",
+      "artifact": "01-product-intent-specification.md",
+      "updated_at": "2026-05-25T00:00:00Z"
+    },
+    "99": {
+      "status": "complete",
+      "artifact": "existing-codebase-understanding.md",
+      "updated_at": "2026-05-25T00:00:00Z"
+    },
+    "02": {
+      "status": "complete",
+      "artifact": "02-high-level-technical-design.md",
+      "updated_at": "2026-05-25T00:00:00Z"
+    },
+    "03": {
+      "status": "complete",
+      "artifact": "03-low-level-design-and-version-policy.md",
+      "updated_at": "2026-05-25T00:00:00Z"
+    },
+    "04": {
+      "status": "complete",
+      "evidence": "red_confirmed",
+      "updated_at": "2026-05-26T01:57:21Z"
+    },
+    "05": {
+      "status": "complete",
+      "evidence": "green_confirmed",
+      "updated_at": "2026-05-26T02:45:50Z"
+    },
+    "06": {
+      "status": "complete",
+      "artifact": "06-verification-and-feedback-report.md",
+      "updated_at": "2026-05-26T02:48:06Z"
+    }
+  },
+  "notes": [
+    "Step 05 was run again without downstream invalidation by explicit user choice. Green confirmation rerun used ./mvnw test: 35 tests passed, 0 failures, 0 errors."
+  ]
+}
