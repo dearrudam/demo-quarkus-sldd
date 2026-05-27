@@ -1,0 +1,39 @@
+{
+  "feature": "nth-root-endpoint",
+  "workflow_path": ".sldd/specs/nth-root-endpoint",
+  "steps": {
+    "01": {
+      "status": "complete",
+      "artifact": "01-product-intent-specification.md"
+    },
+    "99": {
+      "status": "complete",
+      "artifact": "existing-codebase-understanding.md"
+    },
+    "02": {
+      "status": "complete",
+      "artifact": "02-high-level-technical-design.md"
+    },
+    "03": {
+      "status": "complete",
+      "artifact": "03-low-level-design-and-version-policy.md"
+    },
+    "04": {
+      "status": "complete",
+      "artifact": null,
+      "evidence": "red_confirmed"
+    },
+    "05": {
+      "status": "complete",
+      "artifact": null,
+      "evidence": "green_confirmed"
+    },
+    "06": {
+      "status": "complete",
+      "artifact": "06-verification-and-feedback-report.md"
+    }
+  },
+  "notes": [
+    "User explicitly pre-approved running Step 01, Step 99, Step 02 and Step 03 in sequence and requested stopping at Step 04."
+  ]
+}

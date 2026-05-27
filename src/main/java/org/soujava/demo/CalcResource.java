@@ -1,6 +1,7 @@
 package org.soujava.demo;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 
 import jakarta.inject.Inject;
@@ -68,5 +69,34 @@ public class CalcResource {
     @Path("/power")
     public PowerResponse power(@Valid PowerRequest request) {
         return new PowerResponse(calcService.power(request.base(), request.exponent()));
+    }
+
+
+    @POST
+    @Path("/nth-root")
+    public NthRootResponse nthRoot(@Valid NthRootRequest request) {
+        if (request.index().compareTo(BigInteger.ZERO) <= 0) {
+            throw new BadRequestException();
+        }
+        if (request.radicand().compareTo(BigDecimal.ZERO) < 0 && request.index().mod(BigInteger.TWO).equals(BigInteger.ZERO)) {
+            throw new BadRequestException();
+        }
+
+        var roundingContext = request.roundingContext();
+        var scale = roundingContext == null || roundingContext.scale() == null
+                ? DEFAULT_DIVIDE_SCALE
+                : roundingContext.scale();
+        if (scale < 0) {
+            throw new BadRequestException();
+        }
+        var roundingMode = roundingContext == null || roundingContext.roundingMode() == null
+                ? DEFAULT_DIVIDE_ROUNDING_MODE
+                : roundingContext.roundingMode();
+
+        try {
+            return new NthRootResponse(calcService.nthRoot(request.radicand(), request.index(), scale, roundingMode));
+        } catch (ArithmeticException e) {
+            throw new BadRequestException(e);
+        }
     }
 }

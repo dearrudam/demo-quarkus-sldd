@@ -647,4 +647,156 @@ class CalcResourceTest {
                 .body(notNullValue())
                 .body(containsString("/api/calc/power"));
     }
+
+    @Test
+    void shouldReturnNthRootForPositiveRadicand() {
+        given()
+                .contentType("application/json")
+                .body("""
+                        {
+                          "radicand": 27,
+                          "index": 3,
+                          "roundingContext": {
+                            "scale": 2,
+                            "roundingMode": "HALF_UP"
+                          }
+                        }
+                        """)
+                .when()
+                .post("/api/calc/nth-root")
+                .then()
+                .statusCode(200)
+                .body("result", is(3.00f));
+    }
+
+    @Test
+    void shouldReturnZeroWhenNthRootRadicandIsZero() {
+        given()
+                .contentType("application/json")
+                .body("""
+                        {
+                          "radicand": 0,
+                          "index": 5,
+                          "roundingContext": {
+                            "scale": 2,
+                            "roundingMode": "HALF_UP"
+                          }
+                        }
+                        """)
+                .when()
+                .post("/api/calc/nth-root")
+                .then()
+                .statusCode(200)
+                .body("result", is(0.00f));
+    }
+
+    @Test
+    void shouldReturnNegativeResultForNegativeRadicandWithOddIndex() {
+        given()
+                .contentType("application/json")
+                .body("""
+                        {
+                          "radicand": -8,
+                          "index": 3,
+                          "roundingContext": {
+                            "scale": 2,
+                            "roundingMode": "HALF_UP"
+                          }
+                        }
+                        """)
+                .when()
+                .post("/api/calc/nth-root")
+                .then()
+                .statusCode(200)
+                .body("result", is(-2.00f));
+    }
+
+    @Test
+    void shouldReturnBadRequestForNegativeRadicandWithEvenIndex() {
+        given()
+                .contentType("application/json")
+                .body("""
+                        {
+                          "radicand": -16,
+                          "index": 2,
+                          "roundingContext": {
+                            "scale": 2,
+                            "roundingMode": "HALF_UP"
+                          }
+                        }
+                        """)
+                .when()
+                .post("/api/calc/nth-root")
+                .then()
+                .statusCode(400);
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenNthRootIndexIsZero() {
+        given()
+                .contentType("application/json")
+                .body("""
+                        {
+                          "radicand": 16,
+                          "index": 0,
+                          "roundingContext": {
+                            "scale": 2,
+                            "roundingMode": "HALF_UP"
+                          }
+                        }
+                        """)
+                .when()
+                .post("/api/calc/nth-root")
+                .then()
+                .statusCode(400);
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenNthRootRoundingScaleIsNegative() {
+        given()
+                .contentType("application/json")
+                .body("""
+                        {
+                          "radicand": 16,
+                          "index": 2,
+                          "roundingContext": {
+                            "scale": -1,
+                            "roundingMode": "HALF_UP"
+                          }
+                        }
+                        """)
+                .when()
+                .post("/api/calc/nth-root")
+                .then()
+                .statusCode(400);
+    }
+
+    @Test
+    void shouldUseDefaultRoundingContextWhenNthRootPayloadOmitsIt() {
+        given()
+                .contentType("application/json")
+                .body("""
+                        {
+                          "radicand": 2,
+                          "index": 2
+                        }
+                        """)
+                .when()
+                .post("/api/calc/nth-root")
+                .then()
+                .statusCode(200)
+                .body("result", is(1.41f));
+    }
+
+    @Test
+    void shouldExposeOpenApiContractForCalcNthRoot() {
+        given()
+                .when()
+                .get("/q/openapi")
+                .then()
+                .statusCode(200)
+                .body(notNullValue())
+                .body(containsString("/api/calc/nth-root"));
+    }
+
 }
